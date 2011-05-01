@@ -1,0 +1,12 @@
+#Ignored file list
+
+#OS
+.DS_Store
+
+#IDE
+.idea
+*.iml
+
+#build
+target
+index/
