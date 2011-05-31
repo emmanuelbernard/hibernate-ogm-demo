@@ -1,0 +1,37 @@
+Demo script
+===========
+
++ start a h2 instance in server mode
+download H2 and run $H2_HOME/bin/h2.sh
+
++ show the domain model
+(ignoring the Hibernate Search annotations)
+show that the code is genuine JPA annotations
+
++ Run the demo with H2 settings
+Run BookManagerTest#testUserCreation()
+this calls BookManager#createNewUsers()
+
+Note that the rest of the BookManager code (Hibernate Search queries) is not needed and should possibly be removed. It was a fork from an older demo :)
+
+The run generates about 5000 entities (I think) and takes on my laptop 5s
+
++ Migrate to Hibernate OGM
+Open META-INF/persistence.xml
+Add <provider>org.hibernate.ogm.jpa.HibernateOgmPersistence</provider>
+Comment out all the javax.persistence + dialect + hbm2ddl + max_fetch_depth properties as they are specific to RDBMSes
+
+Uncomment hibernate.ogm.infinispan.configuration_resourcename which is the configuration for Infinispan
+
++ Re run the demo with Infinispan
+ReRun BookManagerTest#testUserCreation()
+(it should run in the same time as H2 which makes sense as both are "in-memory" ie non sync disk flush)
+
++ Show what's in the grid
+Change BookManager#createNewUsers() by changing the for loop to create 1 book instead of 1000 (that will create 5 related entities)
+
+Change BookManagerTest#testUserCreation() and uncomment exploreCache
+This will print out the list of entity entries as well as the list of association entries.
+Show that embedded objects (Login) are stored as property.subproperty
+Show the entity structure (it's key and column names / column values)
+Show the association structure describing it as a navigation from one entity to another and explain how it works
