@@ -1,6 +1,6 @@
 package org.hibernate.ogm.demo.intro.action;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.Map;
 
 import org.infinispan.Cache;
@@ -8,6 +8,8 @@ import org.infinispan.manager.CacheContainer;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.environment.se.WeldContainer;
 import org.junit.Test;
+
+import org.hibernate.ogm.grid.RowKey;
 
 /**
  * @author Emmanuel Bernard
@@ -71,7 +73,7 @@ public class BookManagerTest {
 	}
 
 	private void displayAssociationTuples(Object value, StringBuilder data) {
-		List<Map<String,Object>> tuples = (List<Map<String,Object>> ) value;
+		Collection<Map<String,Object>> tuples = ((Map<RowKey,Map<String,Object>>) value).values();
 		data.append( "\t[\n" );
 		for ( Map<String,Object> tuple : tuples ) {
 			data.append( "\t\t[\n" );
