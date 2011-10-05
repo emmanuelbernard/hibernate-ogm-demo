@@ -33,10 +33,27 @@ import org.hibernate.search.query.dsl.QueryBuilder;
 @Transactional
 public class BookManager {
 
+
 	private Random random = new Random( );
 
 	@Inject
 	Provider<FullTextEntityManager> lazyEM;
+
+	@Transactional
+	public void createNewUsers() {
+		final EntityManager entityManager = lazyEM.get();
+		for (int i = 0 ; i < 1000 ; i++) {
+			final Book newRandomBook = createNewRandomBook();
+			entityManager.persist( newRandomBook );
+		}
+	}
+
+
+
+
+
+
+
 
 	//get all books from 1977
 	/**
@@ -270,15 +287,6 @@ public class BookManager {
 		System.out.println( "Number of results: " + query.getResultSize() );
 		for (Book book : resultList) {
 			System.out.println( book.toString() );
-		}
-	}
-
-	@Transactional
-	public void createNewUsers() {
-		final EntityManager entityManager = lazyEM.get();
-		for (int i = 0 ; i < 1000 ; i++) {
-			final Book newRandomBook = createNewRandomBook();
-			entityManager.persist( newRandomBook );
 		}
 	}
 
