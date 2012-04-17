@@ -21,8 +21,8 @@ public class BookManagerTest {
 		final Weld weld = new Weld();
 		WeldContainer weldContainer = weld.initialize();
 
-		final BookManager userManager = weldContainer.instance().select( BookManager.class ).get();
-		userManager.getAllBooksWhoseAuthorIsEmmanuel();
+		final BookManager bookManager = weldContainer.instance().select( BookManager.class ).get();
+		bookManager.getAllBooksWhoseAuthorIsEmmanuel();
 
 		weld.shutdown();
 	}
@@ -32,9 +32,9 @@ public class BookManagerTest {
 		final Weld weld = new Weld();
 		WeldContainer weldContainer = weld.initialize();
 
-		final BookManager userManager = weldContainer.instance().select( BookManager.class ).get();
+		final BookManager bookManager = weldContainer.instance().select( BookManager.class ).get();
 		long start = System.nanoTime();
-		userManager.createNewUsers();
+		bookManager.createNewUsers();
 		long end = System.nanoTime();
 		System.out.println("Creation took " + ( end-start ) / 1000000 + " ms");
 
