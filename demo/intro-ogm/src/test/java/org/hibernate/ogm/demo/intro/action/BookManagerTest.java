@@ -38,23 +38,23 @@ public class BookManagerTest {
 		long end = System.nanoTime();
 		System.out.println("Creation took " + ( end-start ) / 1000000 + " ms");
 
-		//exploreCache( userManager );
+		//exploreCache( bookManager );
 
 		weld.shutdown();
 	}
 
-	private void exploreCache(BookManager userManager) {
-		final CacheContainer cacheContainer = userManager.getCacheManager();
+	private void exploreCache(BookManager bookManager) {
+
 		StringBuilder data = new StringBuilder( "Cache dump" );
 
-		final Cache<Object,Object> entities = cacheContainer.getCache( "ENTITIES" );
+		final Cache<Object,Object> entities = bookManager.getCache( "ENTITIES" );
 		data.append( "\n" ).append( "ENTITIES (" ).append( entities.size() ).append( ")\n" );
 		for ( Map.Entry<Object,Object> entry : entities.entrySet() ) {
 			data.append( entry.getKey() ).append( "\n" );
 			displayTuple( entry.getValue(), data);
 		}
 
-		final Cache<Object, Object> associations = cacheContainer.getCache( "ASSOCIATIONS" );
+		final Cache<Object, Object> associations = bookManager.getCache( "ASSOCIATIONS" );
 		data.append( "\n" ).append( "ASSOCIATIONS (" ).append( associations.size() ).append( ")\n" );
 		for ( Map.Entry<Object,Object> entry : associations.entrySet() ) {
 			data.append( entry.getKey() ).append( "\n" );
@@ -74,15 +74,15 @@ public class BookManagerTest {
 
 	private void displayAssociationTuples(Object value, StringBuilder data) {
 		Collection<Map<String,Object>> tuples = ((Map<RowKey,Map<String,Object>>) value).values();
-		data.append( "\t[\n" );
+		data.append( "\t{\n" );
 		for ( Map<String,Object> tuple : tuples ) {
 			data.append( "\t\t[\n" );
 			for (Map.Entry<String,Object> entry : tuple.entrySet()) {
 				data.append( "\t\t" ).append( entry.getKey() ).append( ": " ).append( entry.getValue() ).append( "\n" );
 			}
-			data.append( "\t\t[\n" );
+			data.append( "\t\t],\n" );
 		}
-		data.append( "\t]\n" );
+		data.append( "\t}\n" );
 	}
 
 }

@@ -10,11 +10,11 @@ import javax.inject.Provider;
 import javax.persistence.EntityManager;
 
 import org.apache.lucene.search.Query;
-import org.infinispan.manager.CacheContainer;
 
 import org.hibernate.Session;
-import org.hibernate.engine.SessionFactoryImplementor;
-import org.hibernate.engine.SessionImplementor;
+import org.hibernate.engine.spi.SessionFactoryImplementor;
+import org.hibernate.ogm.datastore.infinispan.impl.InfinispanDatastoreProvider;
+import org.hibernate.ogm.datastore.spi.DatastoreProvider;
 import org.hibernate.ogm.demo.intro.domain.Address;
 import org.hibernate.ogm.demo.intro.domain.Book;
 import org.hibernate.ogm.demo.intro.domain.Gender;
@@ -22,10 +22,10 @@ import org.hibernate.ogm.demo.intro.domain.User;
 import org.hibernate.ogm.demo.intro.tools.Transactional;
 
 import org.hibernate.CacheMode;
-import org.hibernate.ogm.metadata.GridMetadataManager;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.query.dsl.QueryBuilder;
+import org.infinispan.Cache;
 
 /**
  * @author Emmanuel Bernard
@@ -290,11 +290,17 @@ public class BookManager {
 		}
 	}
 
-	public CacheContainer getCacheManager() {
+	public Cache getCache(String cacheName) {
 		final SessionFactoryImplementor sessionFactory = ( SessionFactoryImplementor ) lazyEM.get()
 				.unwrap( Session.class )
 				.getSessionFactory();
-		 return ( ( GridMetadataManager ) sessionFactory.getFactoryObserver() ).getCacheContainer();
+		DatastoreProvider service = sessionFactory.getServiceRegistry().getService( DatastoreProvider.class );
+		if (service instanceof InfinispanDatastoreProvider) {
+			return ( (InfinispanDatastoreProvider) service ).getCache( cacheName );
+		}
+		else {
+			throw new RuntimeException( "You stupid, your hacky workaround is specific to Infinispan!" );
+		}
 	}
 
 	private Book createNewRandomBook() {
