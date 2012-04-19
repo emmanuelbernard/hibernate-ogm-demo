@@ -6,6 +6,7 @@
     <persistence-unit name="users" transaction-type="RESOURCE_LOCAL">
         <class>org.hibernate.ogm.demo.intro.domain.User</class>
         <properties>
+
             <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
             <property name="javax.persistence.jdbc.user" value="sa"/>
             <property name="javax.persistence.jdbc.password" value=""/>
@@ -18,11 +19,21 @@
                       value="org.hibernate.ogm.demo.intro.tools.HibernateSearchMapping"/>
             <property name="hibernate.search.default.indexBase"
                       value="../index"/>
-            <!--
+            <!-- Infinispan
+
             <property name="hibernate.ogm.datastore.provider"
                       value="org.hibernate.ogm.datastore.infinispan.impl.InfinispanDatastoreProvider"/>
             <property name="hibernate.ogm.infinispan.configuration_resourcename"
                       value="META-INF/ispn-config.xml"/>
+            -->
+
+            <!-- MongoDB
+            <property name="hibernate.ogm.datastore.provider"
+                      value="org.hibernate.ogm.datastore.mongodb.impl.MongoDBDatastoreProvider"/>
+            <property name="hibernate.ogm.mongodb.database"
+                      value="intro-ogm"/>
+            <property name="hibernate.ogm.mongodb.host"
+                      value="nosql-manu"/>
             -->
         </properties>
     </persistence-unit>

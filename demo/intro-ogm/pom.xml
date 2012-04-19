@@ -51,6 +51,19 @@
             <version>${ogmVersion}</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.hibernate.ogm</groupId>
+            <artifactId>hibernate-ogm-mongodb</artifactId>
+            <version>${ogmVersion}</version>
+        </dependency>
+
+        <!-- FIXME not picked up for some reasons -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>2.7.2</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.hibernate</groupId>
